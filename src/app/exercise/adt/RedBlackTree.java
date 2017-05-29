@@ -151,7 +151,17 @@ public class RedBlackTree<T extends Comparable<T>> extends java.util.AbstractCol
     }
    
     public void repair(Node start) {
+        if((start.father).colour == BLACK || start == root) {
+            return;
+        }
 
+        if(start.father == root && (start.father).colour == RED) {
+            (start.father).colour = BLACK;
+        }
+
+        if((start.father)father.right.colour == RED && (start.father).father.left.colour == RED) {
+            
+        }
     }
 
     
