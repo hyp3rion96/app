@@ -1,56 +1,22 @@
 /**
- * This Class provides methods for working with a Red-Black-Tree
- * @author Alexander Wähling 29.05.2017
+ * This Class provides methods for working with a binary search tree
+ * @author Alexander Wähling 17.05.2017
  * @version 0.1
  */
 
 package app.exercise.adt;
-import app.exercise.algebra.*;
-import java.util.AbstractCollection;
 
-public class RedBlackTree<T extends Comparable<T>> extends java.util.AbstractCollection<E>  {
+public class BinarySearchTree<T extends Comparable<T>> {
     /**
      * This is the root of the BST
      */
     public Node root;
-    /**
-     * These are the Values for the Color of the Nodes.
-     */
-    private static final boolean RED = true, BLACK = false;
-
-    /**
-     * This is the return of the String-Methods
-     */
     private String rstr=" ", str=" ";
-    
-    /**
-     * This inner-Class implements Node-Objects, wich are used for implementing Trees
-     */
-    class Node {
-        Node parent;
-        T data;
-        boolean colour;
-        Node left;
-        Node right;
-        public Node(T data){
-            this.data = data;
-            left = null;
-            right = null;
-            colour = RED;
-        }
-        public Node(Node parent, T data) {
-            this.data = data;
-            left = null;
-            right = null;
-            colour = RED;
-            this.parent = parent;
-        }
-    }
     /**
      * The Constructor
      */
    
-    public RedBlackTree(){
+    public BinarySearchTree(){
         this.root = null;
     }
     /**
@@ -81,7 +47,7 @@ public class RedBlackTree<T extends Comparable<T>> extends java.util.AbstractCol
         if(!contains(id)) {
             Node newNode = new Node(id);
             if(root==null){
-                root = new Node(id);
+                root = newNode;
                 return;
             }
             Node current = root;
@@ -91,13 +57,13 @@ public class RedBlackTree<T extends Comparable<T>> extends java.util.AbstractCol
                 if(id.compareTo(current.data) < 0){				
                     current = current.left;
                     if(current==null){
-                        parent.left = new Node(parent, id);
+                        parent.left = newNode;
                         return;
                     }
                 }else{
                     current = current.right;
                     if(current==null){
-                        parent.right = new Node(parent, id);
+                        parent.right = newNode;
                         return;
                     }
                 }
@@ -178,10 +144,18 @@ public class RedBlackTree<T extends Comparable<T>> extends java.util.AbstractCol
          return toReverseString(root);
     }
 
-    public void repair() {
-
+    /**
+     * This inner-Class implements Node-Objects, wich are used for implementing Trees
+     */
+    class Node {
+        T data;
+        Node left;
+        Node right;	
+        public Node(T data){
+            this.data = data;
+            left = null;
+            right = null;
+        }
     }
-
-    
 }
 
