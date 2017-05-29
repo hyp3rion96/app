@@ -103,7 +103,7 @@ public class RedBlackTree<T extends Comparable<T>> extends java.util.AbstractCol
                 }
             }
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Node already exists");
         }
 	}
 
@@ -132,53 +132,25 @@ public class RedBlackTree<T extends Comparable<T>> extends java.util.AbstractCol
         return (current.data);
     }
 
-    /**
-     * The recursive function toString returns the Values of the
-     * BST sorted. It needs a starting node as parameter
-     * @return The BST as String sorted
-     * @param node the starting node
-     */
-	public String toString(Node node){
-		if(node!=null){
-			toString(node.left);
-            str += " " + ((node.data).toString());
-			toString(node.right);
-		} 
-        return str;
-	}
-    /**
-     * The ToString-method Overrides toString in the superclass and uses the overloading toString-Method
-     * to return the BST as String sorted.
-     */
-    @Override
-    public String toString() {
-        return toString(root);
+    private void rotateLeft(Node rotate) {
+        Node swap = rotate;    
+        rotate = rotate.right;
+        rotate.left = swap;
+        (rotate.left).left = swap.left;
+        (rotate.left).right = (swap.right).left;
+        rotate.right = (sowap.right).right;       
     }
 
-    /**
-     * The recursive function toReversedString returns the Values of the
-     * BST reversed sorted. It needs a starting node as parameter
-     * @return The BST as String revered sorted
-     * @param node the starting node
-     */
-    public String toReverseString(Node node) {
-        if(node != null){
-            toReverseString(node.right);
-            rstr += " " + ((node.data).toString());
-            toReverseString(node.left);
-        }
-        return rstr;
+    private void rotateRight() {
+        Node swap = rotate;
+        rotate = rotate.left;
+        rotate.right = swap;
+        (rotate.right).right = swap.right;
+        (rotate.right).left = (swap.left).right;
+        rotate.left = (swap.left).left;
     }
-
-    /**
-     * The ToReversedString-method uses the overloading toString-Method
-     * to return the BST as String reversed sorted.
-     */
-    public String toReverseString(){
-         return toReverseString(root);
-    }
-
-    public void repair() {
+   
+    public void repair(Node start) {
 
     }
 
