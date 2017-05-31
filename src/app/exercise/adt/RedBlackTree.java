@@ -141,7 +141,7 @@ public class RedBlackTree<T extends Comparable<T>> extends java.util.AbstractCol
         rotate.right = (sowap.right).right;       
     }
 
-    private void rotateRight() {
+    private void rotateRight(Node rotate) {
         Node swap = rotate;
         rotate = rotate.left;
         rotate.right = swap;

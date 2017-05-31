@@ -12,7 +12,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
      */
     public Node root;
     private String rstr=" ", str=" ";
-    /**
+    /**hex rechner online
      * The Constructor
      */
    
