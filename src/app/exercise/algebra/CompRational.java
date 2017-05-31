@@ -3,7 +3,7 @@ package app.exercise.algebra;
 /**
  * Extension of the {@link Rational} class that can be used to do arithmetic operations on rational
  * numbers and compare them to each other. The denominator of {@link Rational} objects is always positive.
- * @author Alexander Wähling
+ * @author Robin Hundt
  * @version 1.0
  */
 public class CompRational extends Rational implements Comparable<CompRational> {

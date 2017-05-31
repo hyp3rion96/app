@@ -1,23 +1,27 @@
 <?xml version="1.0"?>
-<project name="RedBlackTree" basedir="." default="build">
+<project name="Exercises" basedir="." default="build">
 	<property name="src.dir" value="src"/>
 	<property name="build.dir" value="out"/>
-	<property name="doc.dir" value="out/doc"/>
+	<property name="doc.dir" value="doc"/>
+	<property name="jar" value="jars/RedBlackTreeDrawer.jar"/>
 
 	<target name="init" description="Clean output directories and recreate directories">
-		<delete includeemptydirs="true">
-			<fileset dir="${build.dir}" includes="**/*"/>
+		<delete includeemptydirs="true" quiet="true">
+			<fileset dir="${build.dir}"/>
+            <fileset dir="${doc.dir}"/>
 		</delete>
-		<mkdir dir="${build.dir}/doc"/>
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${doc.dir}"/>
 	</target>
 
 	<target name="build" description="Compile project and generate JavaDoc" depends="init">
 		<javac destdir="${build.dir}" includeantruntime="false">
 			<src path="${src.dir}"/>
-			<classpath path="${src.dir}/app/exercise/visualtree/RedBlackTreeDrawer.jar"/>
+			<classpath path="${jar}"/>
 		</javac>
 		<javadoc
 			sourcepath="${src.dir}"
+            classpath="${jar}"
 			destdir="${doc.dir}"
 			author="true"
 			version="true"
@@ -26,8 +30,7 @@
 			Encoding="UTF-8"
 			charset="UTF-8"
 			docencoding="UTF-8"
-			windowtitle="APP - RedBlackTree">
+			windowtitle="APP">
 		</javadoc>
 	</target>
-
 </project>

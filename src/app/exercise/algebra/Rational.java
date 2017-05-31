@@ -3,7 +3,7 @@ package app.exercise.algebra;
 /**
  * Rational class that can be used to do arithmetic operations on rational
  * numbers. The denominator of Rational objects is always positive.
- * @author Alexander Wähling
+ * @author Robin Hundt
  * @version 1.1
  */
 public class Rational implements Arithmetic {
@@ -28,6 +28,8 @@ public class Rational implements Arithmetic {
      * @param denom denominator of the new Rational object
      */
     public Rational(int num, int denom) {
+        if(denom == 0)
+            throw new IllegalArgumentException("Division by Zero.");
         this.num = num;
         this.denom = denom;
         this.cancel();
@@ -157,6 +159,8 @@ public class Rational implements Arithmetic {
             Rational r = (Rational) operand;
             this.num *= r.getDenom();
             this.denom *= r.getNum();
+            if(this.denom == 0)
+                throw new IllegalArgumentException("Division by Zero.");
             this.cancel();
         } else {
             throw new IllegalArgumentException("Rationals can only be divided by Rationals");

@@ -1,161 +1,167 @@
-/**
- * This Class provides methods for working with a binary search tree
- * @author Alexander Wähling 17.05.2017
- * @version 0.1
- */
-
 package app.exercise.adt;
 
-public class BinarySearchTree<T extends Comparable<T>> {
-    /**
-     * This is the root of the BST
-     */
-    public Node root;
-    private String rstr=" ", str=" ";
-    /**hex rechner online
-     * The Constructor
-     */
-   
-    public BinarySearchTree(){
-        this.root = null;
-    }
-    /**
-     * Contains checks, if a given Objects is part of the BST
-     * @param id the Object, which is to be checked
-     * @return Bool, weather id is part of BST or not
-     */
-    public boolean contains(T id){
-		Node current = root;
-		while(current!=null){
-			if(current.data.equals(id)){
-				return true;
-			}else if((current.data).compareTo(id) > 0){
-				current = current.left;
-			}else{
-				current = current.right;
-			}
-		}
-		return false;
-	}
+import java.util.Collections;
 
+/**
+ * Implementation of BinarySearchTree for Objects that extend Comparable and whose compareTo() method is equal consistent.
+ * @author Alexander Wähling
+ * @version 0.1
+ */
+public class BinarySearchTree <T extends Comparable<T>> {
     /**
-     * This class inserts an elementto the BST and throws the illegalArgumentException if the element is
-     * already part of the BST
-     * @param id 
+     * Nested Node class to store the Tree information.
      */
-    public void insert(T id){
-        if(!contains(id)) {
-            Node newNode = new Node(id);
-            if(root==null){
-                root = newNode;
-                return;
-            }
-            Node current = root;
-            Node parent = null;
-            while(true){
-                parent = current;
-                if(id.compareTo(current.data) < 0){				
-                    current = current.left;
-                    if(current==null){
-                        parent.left = newNode;
-                        return;
-                    }
-                }else{
-                    current = current.right;
-                    if(current==null){
-                        parent.right = newNode;
-                        return;
-                    }
-                }
-            }
-        } else {
-            throw new IllegalArgumentException();
-        }
-	}
+  	public static final String DELIM = "\n";
 
-    /**
-     * This recursive min-Function returns the smallest Object, which is part of the 
-     * BST
-     * @return smallest part of the Tree
-     */
-    public T min() {
-        Node current = root;
-        while (current.left != null) {
-            current = current.left;
-        }
-        return (current.data);
-    }
-
-    /**
-     * The recursive Method returns the biggest member of the tree
-     * @return the biggest member of the tree
-     */
-    public T max() {
-        Node current = root;
-        while(current.right != null)  {
-            current = current.right;
-        }
-        return (current.data);
-    }
-
-    /**
-     * The recursive function toString returns the Values of the
-     * BST sorted. It needs a starting node as parameter
-     * @return The BST as String sorted
-     * @param node the starting node
-     */
-	public String toString(Node node){
-		if(node!=null){
-			toString(node.left);
-            str += " " + ((node.data).toString());
-			toString(node.right);
-		} 
-        return str;
-	}
-    /**
-     * The ToString-method Overrides toString in the superclass and uses the overloading toString-Method
-     * to return the BST as String sorted.
-     */
-    @Override
-    public String toString() {
-        return toString(root);
-    }
-
-    /**
-     * The recursive function toReversedString returns the Values of the
-     * BST reversed sorted. It needs a starting node as parameter
-     * @return The BST as String revered sorted
-     * @param node the starting node
-     */
-    public String toReverseString(Node node) {
-        if(node != null){
-            toReverseString(node.right);
-            rstr += " " + ((node.data).toString());
-            toReverseString(node.left);
-        }
-        return rstr;
-    }
-
-    /**
-     * The ToReversedString-method uses the overloading toString-Method
-     * to return the BST as String reversed sorted.
-     */
-    public String toReverseString(){
-         return toReverseString(root);
-    }
-
-    /**
-     * This inner-Class implements Node-Objects, wich are used for implementing Trees
-     */
-    class Node {
+    private class Node {
+        /**
+         * stores Data of Type <i><T extends Comparable></i>
+         */
         T data;
-        Node left;
-        Node right;	
-        public Node(T data){
+        /**
+         * store reference to left and right subtree
+         */
+        Node left, right;
+
+
+        /**
+         * Default constructor that initializes data, left and right with <i>null</i>.
+         */
+        Node() {
+            this.data = null;
+            left = null;
+            right = null;
+        }
+
+        /**
+         * Constructor that initializes data with the passed value and left, right with <i>null</i>.
+         * @param data Object to set as data of current {@link Node}
+         */
+        Node(T data) {
             this.data = data;
             left = null;
             right = null;
         }
+
+        /**
+         * inserts <i>T data</i> at a correct position in the BST by using the <i>compareTo(T)</i> method.
+         * @param data data to insert.
+         */
+        void insert(T data) {
+            if(this.data == null)
+                this.data = data;
+            else if (this.data.compareTo(data) == 0)
+                throw new IllegalArgumentException("Cannot store duplicate elements.");
+            else if (data.compareTo(this.data) < 0)
+                if(left == null)
+                    left = new Node(data);
+                else
+                    left.insert(data);
+            else
+                if(right == null)
+                    right = new Node(data);
+                else
+                	right.insert(data);
+        }
+
+        /**
+         * Checks subtruee from current {@link Node} if it contains Data equal to passed Data.
+         * @param data Element to search for in Tree
+         * @return true if subtree contains data, false otherwise
+         */
+        boolean contains(T data) {
+            if(this.data.equals(data))
+                return true;
+            else if(data.compareTo(this.data) < 0 && left != null)
+                return left.contains(data);
+            else if(data.compareTo(this.data) > 0 && right != null)
+                return right.contains(data);
+            else
+                return false;
+        }
+
+        /**
+         * Recursive method that constructs a String representation of the current {@link BinarySearchTree} in ascending
+         * order.
+         * @return String representation of elements in {@link BinarySearchTree} in ascending order seperated by newlines.
+         */
+        String getString() {
+            if(left == null && right == null)
+                return data.toString() + DELIM;
+            else if(left == null && right != null)
+                return data.toString() + DELIM + right.getString();
+            else if(left != null && right == null)
+                return left.getString() + data.toString() + DELIM;
+            else
+                return left.getString() + data.toString() + DELIM + right.getString();
+        }
+
+    }
+
+    /**
+     * Reference to the root of the {@link BinarySearchTree}.
+     */
+    private Node root;
+
+    /**
+     * Default constructor that initializes the {@link #root} {@link Node} with the default {@link Node} constructor.
+     */
+    public BinarySearchTree() {
+        root = new Node();
+    }
+
+    /**
+     * insert data into current {@link BinarySearchTree} by calling {@link Node#insert(Comparable)} with {@link #root}.
+     * @param data data to insert.
+     */
+    public void insert(T data) {
+        root.insert(data);
+    }
+
+    /**
+     * Returns String representation in ascending order of current object by calling {@link Node#getString()} on the {@link #root}.
+     * @return String representation of current {@link BinarySearchTree}
+     */
+    public boolean contains(T data){
+        return root.contains(data);
+    }
+
+    /**
+     * Returns minimal element of BST
+     * @return reference to minimal elemnt of current BST
+     */
+    public T min() {
+        Node  curr = root;
+        while (curr.left != null)
+            curr = curr.left;
+        return curr.data;
+    }
+
+    /**
+     * Returns maximum element of current BST
+     * @return reference to maximum element of current BST
+     */
+    public T max() {
+        Node  curr = root;
+        while (curr.right != null)
+            curr = curr.right;
+        return curr.data;
+    }
+
+    @Override
+    public String toString() {
+        return root.getString();
+    }
+
+    /**
+     * Returns String representation in descending order of current object by reversing the String returned from {@link #toString()}.
+     * @return reverse String representation of current {@link BinarySearchTree}
+     */
+    public String toReverseString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        String stringBST[] = this.toString().split(BinarySearchTree.DELIM);
+        for(int i = stringBST.length-1; i >= 0; i--)
+            stringBuilder.append(stringBST[i] + BinarySearchTree.DELIM);
+        return stringBuilder.toString();
     }
 }
-
