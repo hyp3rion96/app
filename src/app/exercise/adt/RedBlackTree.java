@@ -22,12 +22,12 @@ public class RedBlackTree<T extends Comparable<T>> extends java.util.AbstractCol
      * This is the return of the String-Methods
      */
     private String rstr=" ", str=" ";
-    
+
     /**
      * This inner-Class implements Node-Objects, wich are used for implementing Trees
      */
     class Node {
-        Node parent;
+        Node father;
         T data;
         boolean colour;
         Node left;
@@ -38,18 +38,18 @@ public class RedBlackTree<T extends Comparable<T>> extends java.util.AbstractCol
             right = null;
             colour = RED;
         }
-        public Node(Node parent, T data) {
+        public Node(Node father, T data) {
             this.data = data;
             left = null;
             right = null;
             colour = RED;
-            this.parent = parent;
+            this father = father;
         }
     }
     /**
      * The Constructor
      */
-   
+
     public RedBlackTree(){
         this.root = null;
     }
@@ -75,7 +75,7 @@ public class RedBlackTree<T extends Comparable<T>> extends java.util.AbstractCol
     /**
      * This class inserts an elementto the BST and throws the illegalArgumentException if the element is
      * already part of the BST
-     * @param id 
+     * @param id
      */
     public void insert(T id){
         if(!contains(id)) {
@@ -85,19 +85,19 @@ public class RedBlackTree<T extends Comparable<T>> extends java.util.AbstractCol
                 return;
             }
             Node current = root;
-            Node parent = null;
+            Node father = null;
             while(true){
-                parent = current;
-                if(id.compareTo(current.data) < 0){				
+               father = current;
+                if(id.compareTo(current.data) < 0){
                     current = current.left;
                     if(current==null){
-                        parent.left = new Node(parent, id);
+                       father.left = new Node father, id);
                         return;
                     }
                 }else{
                     current = current.right;
                     if(current==null){
-                        parent.right = new Node(parent, id);
+                       father.right = new Node father, id);
                         return;
                     }
                 }
@@ -108,7 +108,7 @@ public class RedBlackTree<T extends Comparable<T>> extends java.util.AbstractCol
 	}
 
     /**
-     * This recursive min-Function returns the smallest Object, which is part of the 
+     * This recursive min-Function returns the smallest Object, which is part of the
      * BST
      * @return smallest part of the Tree
      */
@@ -133,12 +133,12 @@ public class RedBlackTree<T extends Comparable<T>> extends java.util.AbstractCol
     }
 
     private void rotateLeft(Node rotate) {
-        Node swap = rotate;    
+        Node swap = rotate;
         rotate = rotate.right;
         rotate.left = swap;
         (rotate.left).left = swap.left;
         (rotate.left).right = (swap.right).left;
-        rotate.right = (sowap.right).right;       
+        rotate.right = (swap.right).right;
     }
 
     private void rotateRight(Node rotate) {
@@ -149,21 +149,36 @@ public class RedBlackTree<T extends Comparable<T>> extends java.util.AbstractCol
         (rotate.right).left = (swap.left).right;
         rotate.left = (swap.left).left;
     }
-   
-    public void repair(Node start) {
+
+    private Node findUncle(Node start) {
+        if(Node.father.father.left == Node.father) {
+          return Node.father.father.right;
+        }
+        if(Node.father.father.right == Node.father) {
+          return Node.father.father.left;
+        }
+    }
+    private void repair(Node start) {
         if((start.father).colour == BLACK || start == root) {
             return;
         }
 
         if(start.father == root && (start.father).colour == RED) {
             (start.father).colour = BLACK;
+            return;
         }
 
         if((start.father)father.right.colour == RED && (start.father).father.left.colour == RED) {
-            
+            (start.father).father.colour = RED;
+            (start.father)father.right.colour = BLACK;
+            (start.father).father.left.colour = BLACK;
+            return;
+        }
+
+        if(start.father.colour == RED && findUncle(start).colour == RED) {
+
         }
     }
 
-    
-}
 
+}
